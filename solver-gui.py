@@ -177,7 +177,7 @@ if __name__ == '__main__':
                         error_occured = True # Found the word
                         continue
                     # If less than 6 guesses have been made, store the current grid state
-                    if guess_number <= 5:
+                    if guess_number < 5:
                         # Update positions in the wordle lists
                         wordle.updatePositions(suggestions[guess_number], grid_states[guess_number])
                         # Increment the number of guesses that have been made
@@ -246,4 +246,3 @@ if __name__ == '__main__':
     if ENABLE_STATS:
         game_stats.show_stats()
     sys.exit()
-            

@@ -24,3 +24,10 @@ Suggest words to solve the popular word game 'Wordle'
 ![Game Start State](./images/game_start.png "Game Start State")
 ![Game Win State](./images/game_end.png "Game Win State")
 
+## Notes
+### Similar words
+- The code generally will find the correct word within 6 tries with a very high success rate  
+- However it is likely to fail when the correct answer is very similar to other words  
+  (words having 4 letters same, eg m**atch**, c**atch**, h**atch**, p**atch**, w**atch**, etc.)
+- In such a scenario, the program will continue to suggest one of these words in alphabetical order, but it will also display all of these very similar words.  
+  You can choose to use any of these similar words instead of the one suggested, should you feel that that word is more likely to be the answer.

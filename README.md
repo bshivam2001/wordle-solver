@@ -19,3 +19,6 @@ Suggest words to solve the popular word game 'Wordle'
 
 - To disable statistics, set the `ENABLE_STATS` variable to `False` in `solver-gui.py`
 - If you would like the program to start from a particular word, set the `__INITIAL_SUGGESTION__` variable to a 5 letter word in `wordle.py`
+
+## Screenshots
+![Game Start State](./images/game_start.jpg "Game Start State")

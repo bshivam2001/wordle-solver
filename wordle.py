@@ -23,31 +23,42 @@ pos_not = [[] for i in range(5)]                # Holds letters that CANNOT be a
 tried = []                                      # Holds words that have already been tried
 excluded = set()                                # Holds letters that are NOT part of the solution word
 
+
+# Attempt to open the word list file
+try:
+    with open(__WORDLIST_FILE__) as file:
+        wordlist = file.read().splitlines()
+except FileNotFoundError:
+    print(f'FATAL ERROR: Could not find file \'{__WORDLIST_FILE__}\'')
+
+
 # Function to check if a given word is possible or not and gives it a score
 def getScore(word):
     score = 0
-
+    # If the word has already been tried, do not add to possible words
     if word in tried:
         return -1
-
+    # If a yellow letter is not in the word, do not add to possible words
     for i in included:
         if i not in word:
             return -1
-
     for i in range(5):
+        # If a green letter is not at its correct position in the word, do not add to possible words
         if i in positions.keys() and word[i] != positions[i]:
             return -1
+        # If a grey letter is in the word, do not add to possible words
         elif word[i] in excluded:
             return -1
+        # If a letter has already been tried at position i, and is not green, do not add the word to possible words
         elif word[i] in pos_not[i]:
             return -1
+        # If a yellow letter is in the word in a position that has not been tried, increase its score
         elif word[i] in included:
             score += 1
-        
     # Reduce score if newly guessed letters are being repeated
     # in order to attempt to try maximum number of different letters with every guess
-    known = len(included) + len(positions.keys())   # Number of letters that are known
-    if len(set(word))-known < 5-known:
+    known = len(included) + len(positions.keys())       # Number of letters that are either yellow or green
+    if len(set(word))-known < 5-known:                  # 5-known = number of unknown positions, len(set(word))-known = number of new letters in the word
         score = max(0, score-1)
     return score
         
@@ -95,20 +106,21 @@ def getNextSuggestion():
         exclude_letters = ['q', 'x', 'j', 'z']
         while len(set(suggestion)) < 5 or any(x in suggestion for x in exclude_letters):
             suggestion = random.choice(wordlist)
-            
         return suggestion
 
     possible = PriorityQueue()
     for word in wordlist:
+        # Get score for each word, the word with the best score is suggested next
         word_score = getScore(word)
-
+        # If there are no yellow letters, all grey letters should be unique in the word
         if len(included) == 0:
             word_set = set(list(word))
             if len(word_set) < 5:
                 continue
-
+        # If the word has a positive word score, add to possible words list
         if word_score >= 0 and word_score < 5:
             possible.put((5-word_score, word))
+    # If no possible words were found, return error
     if possible.empty():
         '''
         #DEBUG - print statements
@@ -118,16 +130,11 @@ def getNextSuggestion():
         print(pos_not)
         '''
         return '-1'  #Error: invalid state
-        
+    # Return the best suggestion in possible word list
     suggestion = possible.get()[1]
     tried.append(suggestion)
     return suggestion
 
-try:
-    with open(__WORDLIST_FILE__) as file:
-        wordlist = file.read().splitlines()
-except FileNotFoundError:
-    print(f'FATAL ERROR: Could not find file \'{__WORDLIST_FILE__}\'')
 
 # Command line version: Run this file directly to skip the UI
 if __name__ == '__main__':

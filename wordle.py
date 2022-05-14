@@ -112,7 +112,7 @@ def getNextSuggestion():
     for word in wordlist:
         # Get score for each word, the word with the best score is suggested next
         word_score = getScore(word)
-        # If there are no yellow letters, all grey letters should be unique in the word
+        # If there are no yellow letters, all new letters should be unique in the word
         if len(included) == 0:
             word_set = set(list(word))
             if len(word_set) < 5:
@@ -130,6 +130,9 @@ def getNextSuggestion():
         print(pos_not)
         '''
         return '-1'  #Error: invalid state
+    # Special case for very similar words, all these words are print at once 
+    if len(positions) == 4 and len(possible.queue) > 1:
+        print('The word is one of the following: ', ', '.join(possible.queue[x][1] for x in range(len(possible.queue))))
     # Return the best suggestion in possible word list
     suggestion = possible.get()[1]
     tried.append(suggestion)

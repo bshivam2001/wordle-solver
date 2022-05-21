@@ -27,7 +27,7 @@ Suggest words to solve the popular word game 'Wordle'
 ## Notes
 ### Initial Suggestion
 - If you want to start with a particular word, set the `__INITIAL_SUGGESTION__` variable in `wordle.py` to your preferred word
-- Starting with words like *ARISE*, *ADIEU*, *ATONE*, *IRATE*, or *ALONE* increase your chances of finding at least one correct letter as each of them has 3 vowels and use the most common letters from the English language
+- Starting with words like *ARISE*, *ATONE*, *IRATE*, or *ALONE* increase your chances of finding at least one correct letter as each of them has 3 vowels and use the most common letters from the English language
 ### Similar words
 - The code generally will find the correct word within 6 tries with a very high success rate  
 - However it is likely to fail when the correct answer is very similar to other words  

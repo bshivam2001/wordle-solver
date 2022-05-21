@@ -15,7 +15,7 @@ __WORDLIST_FILE__ = 'possible.txt'
 __INITIAL_SUGGESTION__ = ''
 
 # Variables
-suggestion = __INITIAL_SUGGESTION__             # Holds the current suggestion
+suggestion = ''                                 # Holds the current suggestion
 wordlist = []                                   # Holds all possible 5 letter words
 included = set()                                # Holds letters that are yellow
 positions = {}                                  # Holds letters that are green along with their positions
@@ -102,6 +102,10 @@ def getNextSuggestion():
     # 1. Have all unique letters
     # 2. Not include rarely used letters
     if suggestion == '':
+        # If an initial word has been specified, use that
+        if len(__INITIAL_SUGGESTION__) > 0 and __INITIAL_SUGGESTION__ in wordlist:
+            suggestion =__INITIAL_SUGGESTION__
+            return suggestion
         # These letters occur less than 50 times in over 2000 words
         exclude_letters = ['q', 'x', 'j', 'z']
         while len(set(suggestion)) < 5 or any(x in suggestion for x in exclude_letters):
